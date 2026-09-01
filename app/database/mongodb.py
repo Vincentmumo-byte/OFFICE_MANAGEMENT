@@ -1,17 +1,17 @@
 import logging
 
-from pymongo import MongoClient, ASCENDING
+from pymongo import ASCENDING, MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 
 from app.config import settings
 
 
-logger = logging.getLogger("CreatingHumanity.database")
+logger = logging.getLogger("OfficeManagement.database")
 
 
-client: MongoClient = MongoClient(
+client = MongoClient(
     settings.MONGO_URI,
-    serverSelectionTimeoutMS=5000
+    serverSelectionTimeoutMS=5000,
 )
 
 database = client[settings.MONGO_DB_NAME]
@@ -21,71 +21,67 @@ employees_collection = database["employees"]
 
 
 def connect_to_mongo() -> None:
+    """Test the MongoDB connection."""
+
     try:
         client.admin.command("ping")
 
         logger.info(
             "Connected to MongoDB at %s",
-            settings.MONGO_URI
+            settings.MONGO_URI,
         )
 
     except ServerSelectionTimeoutError as exc:
         logger.error(
             "Could not connect to MongoDB: %s",
-            exc
+            exc,
         )
         raise
 
 
-# Prevent duplicate user accounts
 users_collection.create_index(
     [("email", ASCENDING)],
-    unique=True
+    unique=True,
 )
 
-
-# Unique index on employee ID
 employees_collection.create_index(
     [("employee_id", ASCENDING)],
-    unique=True
+    unique=True,
 )
 
-
-# Unique index on employee email
 employees_collection.create_index(
     [("email", ASCENDING)],
-    unique=True
-)
-
-
-# Employee indexes
-employees_collection.create_index(
-    [("department", ASCENDING)]
+    unique=True,
 )
 
 employees_collection.create_index(
-    [("designation", ASCENDING)]
+    [("department", ASCENDING)],
 )
 
 employees_collection.create_index(
-    [("first_name", ASCENDING)]
+    [("designation", ASCENDING)],
 )
 
 employees_collection.create_index(
-    [("second_name", ASCENDING)]
+    [("first_name", ASCENDING)],
 )
 
 employees_collection.create_index(
-    [("salary", ASCENDING)]
+    [("second_name", ASCENDING)],
 )
 
 employees_collection.create_index(
-    [("joining_date", ASCENDING)]
+    [("salary", ASCENDING)],
+)
+
+employees_collection.create_index(
+    [("joining_date", ASCENDING)],
 )
 
 
 def close_mongo_connection() -> None:
-    """Close the MongoDB client connection."""
+    """Close the MongoDB connection."""
+
     client.close()
 
     logger.info("MongoDB connection closed")
