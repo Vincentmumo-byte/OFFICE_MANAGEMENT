@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from app import router
 from app.config import settings
 from app.database.mongodb import connect_to_mongo, close_mongo_connection
 from app.middleware.error_handler import register_exception_handlers
@@ -38,7 +39,9 @@ app = FastAPI(
         "name": "Creating Humanity Engineering Team"
     },
     lifespan=lifespan,
+    
 )
+
 
 
 app.add_middleware(
@@ -60,8 +63,7 @@ app.mount(
 )
 
 
-app.include_router(auth.router)
-app.include_router(employees.router)
+
 
 
 @app.get(
