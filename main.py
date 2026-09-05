@@ -9,7 +9,6 @@ from app.config import settings
 from app.database.mongodb import connect_to_mongo, close_mongo_connection
 from app.middleware.error_handler import register_exception_handlers
 from app.middleware.logging_middleware import RequestLoggingMiddleware
-from app.routes import auth, employees
 
 
 logging.basicConfig(

@@ -49,4 +49,6 @@ def register_exception_handlers(app: FastAPI) -> None:
             content={
                 "success": False,
                 "message": "Validation failed for one or more fields",
-                "details
+                "details": errors,
+            },
+        )

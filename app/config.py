@@ -25,7 +25,7 @@ class Settings:
 
     MONGO_DB_NAME: str = os.getenv(
         "MONGO_DB_NAME",
-        "Creating Humanity_db"
+        "office_management_db"
     )
 
     # JWT

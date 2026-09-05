@@ -7,8 +7,6 @@ from bson.errors import InvalidId
 
 from pymongo.errors import DuplicateKeyError
 
-from app.database.mongodb import user_collection
-
 def serialize_user(user_doc: dict) -> dict:
     """Serialize a user document from MongoDB to a dictionary."""
     return {
